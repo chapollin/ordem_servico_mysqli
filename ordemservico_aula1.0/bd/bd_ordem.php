@@ -149,7 +149,9 @@ function removeOrdem($codigo){
 
 function listaOrdemPerfil($status, $codigo, $perfil){
     $conexao = conecta_db();
+
     $ordem = array();
+
     $query = "SELECT o.cod AS cod,
         c.nome AS nome_cliente,
         t.nome AS nome_terceirizada,
@@ -162,11 +164,16 @@ function listaOrdemPerfil($status, $codigo, $perfil){
         INNER JOIN terceirizado t ON o.cod_terceirizado = t.cod
         WHERE o.status = '$status'".
         (($perfil == 2) ? " AND o.cod_cliente = '$codigo'" : (($perfil == 3) ? " AND o.cod_terceirizado = '$codigo'" : ""));
+
     $query .= " ORDER BY o.status ASC";
+
     $resultado = mysqli_query($conexao, $query);
+
     while ($dados = mysqli_fetch_array($resultado)) {
         array_push($ordem, $dados);
     }
     return $ordem;
 }
 ?>
+
+
